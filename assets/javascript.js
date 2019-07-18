@@ -14,13 +14,35 @@ $(document).ready(function () {
     
     firebase.initializeApp(firebaseConfig);
 
+    let database = firebase.database();
 
+    $("#add-train-btn").on("click", function (event) {
+        event.preventDefault();
 
+        let trainName = $("#trainName").val().trim()
+        let destination = $("$destination").val().trim()
+        let fristTrain = $("$firstTrain").val().trim()
+        let frequency = $("$frequency").val().trim()
+    
+        let trainSchedule = {
+            trainName,
+            destination,
+            fristTrain,
+            frequency
+        };
 
+        database.ref("/trainSchedule").push(trainSchedule);
 
-
-
+    });
 
     
+
+
+
+
+
+
+
+   
     
 });
