@@ -1,10 +1,5 @@
-
-
-
-
 $(document).ready(function () {
-    // Initialize Firebase //
-    /* vicky setting */
+    // Initialize Firebase // 
     let firebaseConfig = {
         apiKey: "AIzaSyC0duOMYn3EHuQNBy204CxfF7eWE3mVZfA",
         authDomain: "train-scheduler-1679a.firebaseapp.com",
@@ -20,50 +15,84 @@ $(document).ready(function () {
 
     let database = firebase.database();
 
-
-
-
     $("#add-train-btn").on("click", function (event) {
 
         event.preventDefault();
 
         let trainName = $("#trainName").val().trim();
         let destination = $("#destination").val().trim();
-        let fristTrain = $("#firstTrain").val().trim();
-        let frequencyA = $("#frenquencyType").val().trim();
+        let firstTrain = $("#firstTrain").val().trim();
+        let frequency = $("#frequency").val().trim();
 
+        //console.log(frequency);
         let trainSchedule = {
             trainName,
             destination,
-            fristTrain,
-            frequencyA
+            firstTrain,
+            frequency
         };
 
         database.ref("/trainSchedule").push(trainSchedule);
 
+
+
     });
+
+
 
     database.ref("/trainSchedule").on("child_added", function (snapshot) {
         let trainSchedule = snapshot.val();
-        console.log(trainSchedule);
-        let trainScheduleHTML = `
-                <tr>
-                    <td scope="col">${trainSchedule.trainName}</td>
-                    <td scope="col">${trainSchedule.destination}</td>
-                    <td scope="col">${trainSchedule.frequencyA}</td>
-                    <td scope="col">Next Arrival</td>
-                    <td scope="col">Minutes Away</td>
-                </tr>
-                `;
 
-        $("#train-table tbody").append(trainScheduleHTML);
+        //console.log(trainSchedule);
+        //console.log("key " + snapshot.key);
+        //console.log("Train " + trainSchedule.firstTrain);
+        //snapshot.firstTrain;
+        //alert(aFirstTrain);
+        let trainScheduleHTML = `
+        <tr>
+        <td scope="col">${trainSchedule.trainName}</td>
+        <td scope="col">${trainSchedule.destination}</td>
+        <td scope="col">${trainSchedule.frequency}</td>
+        <td scope="col">Next Arrival</td>
+        <td scope="col">Minutes Away</td>
+        </tr>
+        `;
+
+        $("#train-table").append(trainScheduleHTML);
+
+
+
+        //let frequency = snapshot.val($("#frequency"));
+        //let firstTrain = $("#firstTrain");
+
+        let firstTimeConverted = moment(trainSchedule.firstTrain, "HH:mm").subtract(1, "years");
+        console.log(firstTimeConverted);
+
+        let currentTime = moment();
+        console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+        let diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+        console.log("DIFFERENCE IN TIME: " + diffTime);
+
+        let tRemainder = diffTime % trainSchedule.frequency;
+        console.log(tRemainder);
+
+        let minutesAway = trainSchedule.frequency - tRemainder;
+        //let minutesAway = frequency - tRemainder;
+        console.log("MINUTES TILL TRAIN: " + minutesAway);
+
+        let nextTrain = moment().add(minutesAway, "minutes");
+        console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+
+
+
+
+
     });
 
-
-
-
-
-
-
-
 });
+
+
+
+
