@@ -48,18 +48,6 @@ $(document).ready(function () {
         //console.log("Train " + trainSchedule.firstTrain);
         //snapshot.firstTrain;
         //alert(aFirstTrain);
-        let trainScheduleHTML = `
-        <tr>
-        <td scope="col">${trainSchedule.trainName}</td>
-        <td scope="col">${trainSchedule.destination}</td>
-        <td scope="col">${trainSchedule.frequency}</td>
-        <td scope="col">Next Arrival</td>
-        <td scope="col">Minutes Away</td>
-        </tr>
-        `;
-
-        $("#train-table").append(trainScheduleHTML);
-
 
 
         //let frequency = snapshot.val($("#frequency"));
@@ -78,14 +66,24 @@ $(document).ready(function () {
         console.log(tRemainder);
 
         let minutesAway = trainSchedule.frequency - tRemainder;
-        //let minutesAway = frequency - tRemainder;
-        console.log("MINUTES TILL TRAIN: " + minutesAway);
+        console.log(minutesAway);
+
+        //$("#minAway").trainScheduleHTML = minutesAway;
 
         let nextTrain = moment().add(minutesAway, "minutes");
         console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
+        let trainScheduleHTML = `
+        <tr>
+        <td scope="col">${trainSchedule.trainName}</td>
+        <td scope="col">${trainSchedule.destination}</td>
+        <td scope="col">${trainSchedule.frequency}</td>
+        <td scope="col">Nest Arrival</td>
+        <td scope="col">${minutesAway}</td>
+        </tr>
+        `;
 
-
+        $("#train-table").append(trainScheduleHTML);
 
 
 
