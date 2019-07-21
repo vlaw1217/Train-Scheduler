@@ -1,3 +1,18 @@
 * {
 box-sizing: border-box;
 }
+
+.card-header {
+background-color: rgb(201, 226, 201);
+font-weight: bold;
+
+}
+
+label {
+    font-weight: bold;
+
+}
+
+#add-train-btn {
+    background-color: green;
+}
