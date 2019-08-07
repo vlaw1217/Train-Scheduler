@@ -1,7 +1,7 @@
 // Initialize Firebase //
 
 let firebaseConfig
-    = {
+= {
     apiKey: "AIzaSyC0duOMYn3EHuQNBy204CxfF7eWE3mVZfA",
     authDomain: "train-scheduler-1679a.firebaseapp.com",
     databaseURL: "https://train-scheduler-1679a.firebaseio.com",
@@ -12,7 +12,10 @@ let firebaseConfig
 };
 
 firebase.initializeApp(firebaseConfig);
+
+
 let database = firebase.database();
+
 
 
 function removeSchedule(deleteKey) {
@@ -22,10 +25,9 @@ function removeSchedule(deleteKey) {
     
 }
 
-
 $(document).ready(function () {
-    
 
+// Add Train Table //
     $("#add-train-btn").on("click", function (event) {
 
         event.preventDefault();
@@ -46,11 +48,9 @@ $(document).ready(function () {
         database.ref("/trainSchedule").push(trainSchedule);
 
 
-
     });
 
-
-
+// Schedule List //
     database.ref("/trainSchedule").on("child_added", function (snapshot) {
         let trainSchedule = snapshot.val();
         
@@ -87,7 +87,6 @@ $(document).ready(function () {
         `;
 
         $("#train-table").append(trainScheduleHTML);
-
 
 
     });
